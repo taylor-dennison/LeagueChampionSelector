@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Project1</title>
+        <meta charset="utf-8">
+    <style>
+        /* Place CSS here */
+    </style>
+    <script src="ChoiceData.js"></script>
+    </head>
+    <body>
+        <!-- Place HTML elements here-->
+    </body>
+    <script>
+        const choiceData = selectInfo.choices;
+        const dataLength = Object.keys(choiceData).length;
+
+        const selectDiv = document.createElement("div");
+        selectDiv.id ="selectDiv";
+        document.body.append(selectDiv);
+
+        var currentDepth = 0;
+
+        createSelectElement("Main");
+
+        function createSelectElement(dataKey){
+            
+            for (var i = 0; i < dataLength; i++) {
+        
+                // If choice does not match key, skip this data point
+                if (choiceData[i].key != dataKey)
+                    continue;
+        
+                
+                //create a wrapper around each h2 and selectlist to aid easy removal if needed
+                const wrapper = document.createElement("div");
+                wrapper.id = choiceData[i].depth;
+                selectDiv.appendChild(wrapper);
+
+                // Creates a header to label the specific select menu
+                var h2 = document.createElement('h2');
+                var textNode = document.createTextNode(choiceData[i].description);
+                h2.className = choiceData[i].depth;
+                h2.appendChild(textNode);
+                wrapper.appendChild(h2);
+        
+                // Creates the select list element
+                var selectList = document.createElement('select');
+                selectList.id = choiceData[i].key;
+                selectList.name = choiceData[i].description;
+                selectList.className = choiceData[i].depth;
+                wrapper.appendChild(selectList);
+        
+                // Creates null Select option
+                var nullOption = document.createElement('option');
+                nullOption.text = "Select an Option";
+                nullOption.selected = this;
+                nullOption.disabled = true;
+                selectList.appendChild(nullOption);                
+        
+                // Creates option 1
+                var newOption1 = document.createElement('option');
+                newOption1.value = choiceData[i].option_1;
+                newOption1.text = choiceData[i].option_1;
+                selectList.appendChild(newOption1);
+        
+                // Creates option 2
+                var newOption2 = document.createElement('option');
+                newOption2.value = choiceData[i].option_2;
+                newOption2.text = choiceData[i].option_2;
+                selectList.appendChild(newOption2);
+
+                 // Creates option 3
+                 var newOption3 = document.createElement('option');
+                newOption3.value = choiceData[i].option_3;
+                newOption3.text = choiceData[i].option_3;
+                selectList.appendChild(newOption3);
+
+                 // Creates option 4
+                 var newOption4 = document.createElement('option');
+                newOption4.value = choiceData[i].option_4;
+                newOption4.text = choiceData[i].option_4;
+                selectList.appendChild(newOption4);
+
+                 // Creates option 5
+                 var newOption5 = document.createElement('option');
+                newOption5.value = choiceData[i].option_5;
+                newOption5.text = choiceData[i].option_5;
+                selectList.appendChild(newOption5);
+                
+
+                // Hooks up an event to reload the choices whenever the select value is changed
+                //selectList.onchange
+                selectList.addEventListener("change", function () {
+                    const selection = this.selectedOptions;
+                    //console.log(selection);
+                    const selectionText = selection[0].innerText;
+                    //console.log(selectionText);
+                    // call a function to remove select lists if necessary
+                    // call a function to add new select list
+
+                    //iterate through choiceData to determine selecton depth
+                    var selectionDepth = determineSelectionDepth(dataKey);
+                   // console.log(selectionDepth); 
+
+                    //some if statement
+                    //removeSelectList(selectionText);
+                    console.log(selectionDepth);
+                    console.log(currentDepth);
+                    
+                    
+                    if (selectionDepth < currentDepth) {
+                        document.getElementById("1").remove();
+                        document.getElementById("2").remove();
+                        currentDepth = 0;
+                    }
+                    if (document.getElementById("1")) {
+                        document.getElementById("1").remove();
+                    }
+                    addNewSelectList(selectionText);
+
+                    
+
+                });
+            }
+        };
+
+        function addNewSelectList(dataKey) {
+            for (var i = 0; i < dataLength; i++) {
+        
+                // If choice does not match key, skip this data point
+                if (choiceData[i].key != dataKey)
+                    continue;
+   
+                const wrapper = document.createElement("div");
+                wrapper.id = choiceData[i].depth;
+                selectDiv.appendChild(wrapper);
+
+                // Creates a header to label the specific select menu
+                var h2 = document.createElement('h2');
+                var textNode = document.createTextNode(choiceData[i].description);
+                h2.className = choiceData[i].depth;
+                h2.appendChild(textNode);
+                wrapper.appendChild(h2);
+
+                // Creates the select list element
+                var selectList = document.createElement('select');
+                selectList.id = choiceData[i].key;
+                selectList.name = choiceData[i].description;
+                selectList.className = choiceData[i].depth;
+                wrapper.appendChild(selectList);
+
+                // Creates null Select option
+                var nullOption = document.createElement('option');
+                nullOption.text = "Select an Option";
+                nullOption.selected = this;
+                nullOption.disabled = true;
+                selectList.appendChild(nullOption);                
+
+                // Creates option 1
+                var newOption1 = document.createElement('option');
+                newOption1.value = choiceData[i].option_1;
+                newOption1.text = choiceData[i].option_1;
+                selectList.appendChild(newOption1);
+
+                // Creates option 2
+                var newOption2 = document.createElement('option');
+                newOption2.value = choiceData[i].option_2;
+                newOption2.text = choiceData[i].option_2;
+                selectList.appendChild(newOption2);
+                } 
+                
+               
+                
+                // Hooks up an event to reload the choices whenever the select value is changed
+                //selectList.onchange
+                selectList.addEventListener("change", function () {
+                    
+                    const selection = this.selectedOptions;
+                    const nodeList = document.querySelectorAll("select");
+                    //console.log(selection);
+
+                    const selectionText = selection[0].innerText;
+                    //console.log(selectionText);
+                    // call a function to remove select lists if necessary
+                    // call a function to add new select list
+                    console.log(selectionText);
+                    var selectionDepth = determineSelectionDepth(dataKey);
+                    console.log(selectionDepth);
+
+                   
+                    if (selectionDepth == 1 && document.getElementById("2")) {
+                        document.getElementById("2").remove();
+                    }
+                    // prevent function from making another list after the last choice is made.
+                    if (selectionDepth != 2 ) {    
+                        addNewSelectList(selectionText);
+                        currentDepth++;
+                    }
+                    
+                    
+
+                });
+        }
+
+        function determineSelectionDepth(dataKey) {
+            for (var i = 0; i < dataLength; i++) {
+        
+                // If choice does not match key, skip this data point
+                if (choiceData[i].key != dataKey)
+                    continue;
+                const selectionDepth = choiceData[i].depth;
+                return selectionDepth;
+                
+    }     
+        }
+
+
+
+    </script>
+</html>
